@@ -310,10 +310,16 @@ def supervisor_node(state: ShoppingState) -> ShoppingState:
         route_json = {}
     if "status" not in route_json:
         route_json["status"] = "ok"
-    if "needs_policy" not in route_json:
+    
+    if route_json.get("status") == "clarification_needed":
         route_json["needs_policy"] = False
-    if "needs_data" not in route_json:
         route_json["needs_data"] = False
+    else:
+        if "needs_policy" not in route_json:
+            route_json["needs_policy"] = False
+        if "needs_data" not in route_json:
+            route_json["needs_data"] = False
+            
     if "clarification_question" not in route_json:
         route_json["clarification_question"] = None
 

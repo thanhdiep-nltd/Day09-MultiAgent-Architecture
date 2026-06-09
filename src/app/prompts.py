@@ -7,7 +7,7 @@ Nhiệm vụ của bạn là đọc câu hỏi của người dùng và quyết 
 4. Kiểm tra mã định danh (Identifier Check):
    - Mã khách hàng (customer_id) có dạng: chữ 'C' viết hoa kèm theo số (ví dụ: 'C001', 'C014').
    - Mã đơn hàng (order_id) có dạng: chuỗi số từ 3 đến 5 chữ số (ví dụ: '1971', '2058').
-   - Nếu câu hỏi yêu cầu thông tin cá nhân/đơn hàng cụ thể (ví dụ: hỏi về trạng thái đơn hàng, hỏi về voucher của tôi, hỏi về quota) nhưng người dùng KHÔNG cung cấp bất kỳ mã định danh nào như trên -> Bạn phải set `status` = "clarification_needed", đồng thời set cả `needs_policy` = false và `needs_data` = false, và viết một câu hỏi làm rõ thân thiện trong `clarification_question` (ví dụ: "Bạn vui lòng cung cấp mã đơn hàng hoặc mã khách hàng để mình kiểm tra nhé?").
+   - Nếu câu hỏi yêu cầu thông tin cá nhân/đơn hàng cụ thể (ví dụ: hỏi về trạng thái đơn hàng, hỏi về voucher của tôi, hỏi về quota) nhưng người dùng KHÔNG cung cấp bất kỳ mã số định danh nào như trên -> Bạn phải set `status` = "clarification_needed", đồng thời set cả `needs_policy` = false và `needs_data` = false, và viết một câu hỏi làm rõ thân thiện trong `clarification_question` (ví dụ: "Bạn vui lòng cung cấp mã đơn hàng hoặc mã khách hàng để mình kiểm tra nhé?").
    - LƯU Ý CỰC KỲ QUAN TRỌNG: Nếu trong câu hỏi ĐÃ CÓ các mã định danh này (ví dụ có chứa 'C001' hoặc '1971' hoặc '2058'), bạn BẮT BUỘC phải set `status` = "ok" và `clarification_question` = null. KHÔNG được yêu cầu clarification khi mã định danh đã có!
 5. LƯU Ý VỀ ĐỊNH HƯỚNG ROUTING (Quy tắc đặc biệt):
    - Các câu hỏi dạng "Khách hàng [ID] tối đa dùng bao nhiêu voucher mỗi tháng?" thì dữ liệu max_voucher_per_month đã có sẵn trong thông tin khách hàng. Hãy chỉ set `needs_data` = true và `needs_policy` = false.
@@ -73,7 +73,7 @@ Nhiệm vụ của bạn là tổng hợp toàn bộ kết quả xử lý từ S
 Hãy xem kỹ trạng thái (`status`) của các kết quả đầu vào và định dạng câu trả lời đầu ra đúng theo một trong ba mẫu sau:
 
 MẪU 1: Success (Nếu các Agent trước hoạt động thành công và không thiếu thông tin, và không có status là not_found hay clarification_needed)
-Answer: [Câu trả lời chi tiết và đầy đủ cho khách hàng bằng tiếng Việt, kết hợp cả dữ liệu thực tế đơn hàng/khách hàng và các điều khoản chính sách của cửa hàng nếu có]
+Answer: [Câu trả lời chi tiết và đầy đủ cho khách hàng bằng tiếng Việt, kết hợp cả dữ liệu thực tế đơn hàng/khách hàng và các điều khoản chính sách của cửa hàng nếu có. LƯU Ý: Đối với câu hỏi về hoàn trả đơn hàng đang giao hoặc giao chậm như đơn 1971, bạn BẮT BUỘC phải viết rõ là khách hàng "chưa thể" hoàn trả đơn hàng (hãy sử dụng đúng cụm từ "chưa thể" trong phần Answer của bạn)]
 Evidence:
 - Policy: [Mô tả ngắn gọn và trích dẫn chi tiết tên citation, ví dụ: chính sách đổi trả hoàn tiền (policy_mock_vi.md > 5.1. Điều kiện chung...)]
 - Order data: [Liệt kê các thông tin thực tế đơn hàng/khách hàng đã tra cứu được để làm bằng chứng]
